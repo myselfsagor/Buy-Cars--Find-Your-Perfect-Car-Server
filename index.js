@@ -27,6 +27,7 @@ async function run() {
     const CarCollection = database.collection("carsList");
     const ordersCollection = database.collection("orders");
     const usersCollection = database.collection("users");
+    const reviewCollection = database.collection("reviews");
 
     // POST services in database
     app.post("/addProduct", async (req, res) => {
@@ -121,6 +122,20 @@ async function run() {
           res.json(result);
         }
       );
+    });
+
+    // add review
+
+    app.post("/addReview", async (req, res) => {
+      const result = await reviewCollection.insertOne(req.body);
+      res.send(result);
+    });
+
+    // get review
+
+    app.get("/reviews", async (req, res) => {
+      const result = await reviewCollection.find({}).toArray();
+      res.json(result);
     });
   } finally {
     // await client.close();
